@@ -12,4 +12,3 @@
 9. [Configuration Accountingand Performance](./Abstracts/9-Configuration_Accountingand_Performance.md)
 10. [Network Security](./Abstracts/10-Network_Security.md)
 11. [System Performance Analysis](./Abstracts/11-System_Performance_Analysis.md)
-12. 
