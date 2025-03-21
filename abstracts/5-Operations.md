@@ -144,6 +144,124 @@ A apresentação está organizada em secções que seguem uma narrativa lógica.
 
 ---
 
+## Fundamentos da Gestão de Sistemas
+
+### Conceitos Básicos
+- Uma **managed entity** corresponde ao equipamento que tentamos aceder e gerir
+- **Agentes** são componentes presentes nos servidores que fornecem informações e estabelecem comunicação
+  - A comunicação com a managed entity ocorre através destes agentes
+  - A comunicação utiliza protocolos específicos
+
+### Ciclo de Vida da Gestão
+A gestão de sistemas segue um ciclo contínuo com quatro etapas principais:
+1. **Descoberta/Processamento de eventos**: Identificação e tratamento de eventos no sistema
+2. **Monitorização/Supervisão de estado**: Observação contínua do sistema para recolher dados
+3. **Análise**: Interpretação dos dados para identificar desvios e planear soluções
+4. **Reconfiguração/Reporting**: Ajuste da configuração do sistema e documentação
+
+### Atividades do Gestor
+As atividades do gestor representam o que é feito no dia-a-dia, incluindo:
+- **Monitorização**: Observação do sistema para recolha de dados sobre estado e desempenho
+- **Análise**: Interpretação dos dados para determinar o que é esperado vs. inesperado e planear correções
+- **Relatórios**: Registo de informações para fins históricos, administrativos e de negócio
+- **Reconfiguração**: Implementação de ajustes para corrigir problemas identificados
+
+## Áreas e Tarefas de Gestão
+
+### Áreas de Gestão
+- **Sistemas**: Datacenters, servidores, sistemas operativos, email
+- **Redes**: Componentes de camada 3 e superiores
+- **Aplicações**: Todas as outras aplicações
+
+### Tarefas de Gestão (FCAPS)
+- **Faults (Falhas)**: Resolução de problemas e falhas
+- **Configuration (Configuração)**: Configuração dos componentes da rede
+- **Accounting (Contabilização)**: Monitorização dos recursos consumidos
+- **Performance (Desempenho)**: Garantia de que o sistema funciona com eficiência satisfatória
+- **Security (Segurança)**: Proteção do sistema contra ameaças
+
+## Tipos de Sistemas
+
+### Sistemas Homogéneos
+- Todos os equipamentos são da mesma marca, utilizando protocolos consistentes
+- **Vantagens**:
+  - Gestão mais fácil do parque informático
+  - Ferramentas de gestão proprietárias mais integradas
+  - Processos uniformizados
+- **Desvantagens**:
+  - Vulnerabilidades num equipamento afetam todos os equipamentos
+  - Dependência de uma única empresa fornecedora
+
+### Sistemas Heterogéneos
+- Componentes de marcas diferentes coexistem no sistema
+- Agentes diversos dificultam a comunicação e o transporte de dados
+- Necessidade de protocolos standard como SNMP
+- Desafios na representação dos dados:
+  - Diferentes formatos e métricas de informação (ex.: °C vs. °F, MB vs. GB)
+  - Necessidade de um gestor central que processe dados de diferentes fontes
+  - Utilização do **CIM (Common Information Model)** para padronização
+
+## Protocolos e Modelos de Informação
+
+### SNMP (Simple Network Management Protocol)
+- Protocolo de transporte para gestão de redes
+- Versões principais:
+  - V1 (original)
+  - V2c (mais utilizada, principalmente para leitura de dados)
+  - V3 (com segurança avançada, menos utilizada)
+- Comandos principais:
+  - **GetRequest**: Solicita valor associado a um OID específico
+  - **GetNextRequest**: Devolve o valor do próximo OID ordenado lexicograficamente
+  - **GetBulk**: Recupera um conjunto de valores
+- Segurança baseada em **communities**, considerada insuficiente nas versões V1 e V2c
+- Tipicamente usado para leitura de dados (read-only), com outras soluções para reconfiguração
+
+### MIB (Management Information Base)
+- Base de dados que armazena informações sobre dispositivos geridos
+- Organizada em estrutura hierárquica de árvore
+- Características:
+  - Apenas as folhas da árvore contêm valores
+  - Cada nível da hierarquia recomeça a contagem do zero
+  - Acesso através de **OID (Object Identifier)** (ex.: 1.1.39.3)
+  - Por convenção, a raiz é sempre 1
+- Representada na linguagem **ASN.1** (Abstract Syntax Notation) em ASCII
+- Os agentes contêm apenas as entradas da MIB relevantes para si
+
+### CIM (Common Information Model)
+- Modelo de informação associado ao WBEM (Web-Based Enterprise Management)
+- Abordagem de **Programação Orientada a Objetos** (OOP)
+- Características:
+  - Estrutura em árvore com herança de propriedades
+  - Representação em XML para queries e respostas
+  - Permite que novos componentes com atributos desconhecidos herdem atributos conhecidos
+  - Facilita reconfigurações através de endereçamento padronizado
+- Representação visual através de UML (Unified Modeling Language)
+
+## Comunicação e Consola de Gestão
+
+### Comunicação Sistema-Gestor
+- Fluxo de dados entre o sistema gerido e processos de gestão
+- Utilização de protocolos como SNMP para polling de dados
+- Desafios na padronização de comunicação em ambientes heterogéneos
+
+### Consola de Gestão
+- Interface central para visualização e gestão de informações
+- Funções principais:
+  - Agregação de dados de monitorização
+  - Visualização do estado do sistema
+  - Geração de relatórios
+  - Iniciação de reconfigurações
+
+## Abordagem 3D para Gestão
+A gestão eficaz combina três dimensões fundamentais:
+1. **Tecnológica**: Ferramentas e protocolos (SNMP, CIM)
+2. **Processual**: Ciclo de vida da gestão e atividades do gestor
+3. **Organizacional**: Fatores humanos e alinhamento com objetivos de negócio
+
+Esta abordagem multidimensional permite lidar com a complexidade dos sistemas modernos, integrando aspectos técnicos, processuais e humanos para uma gestão holística e eficiente.
+
+---
+
 ## Conclusão
 É uma lição abrangente sobre gestão de sistemas, com foco nas atividades diárias do gestor (monitorização, análise, relatórios e reconfiguração), o ciclo de vida da gestão e conceitos técnicos como FCAPS, SNMP, MIB e CIM. A estrutura geral segue uma progressão lógica: introdução, exploração de atividades e funções, contextualização tridimensional, descrição do sistema, comunicação e conclusão. Apesar de algumas partes estarem incompletas devido a falhas no OCR, o conteúdo é claramente orientado para profissionais ou estudantes de operações de TI, possivelmente num contexto de formação da Cisco. A lição prepara o terreno para tópicos mais avançados nas semanas seguintes, destacando a importância do fluxo de dados e da gestão proactiva.
 
