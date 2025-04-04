@@ -1,97 +1,136 @@
-# Discovery em Gestão de TI
+# Discovery em Gestão de TI – Resumo Atualizado
 
-Este é um conjunto de notas relacionadas com o tema "Discovery" (Descoberta) no contexto da gestão de infraestrutura de Tecnologias de Informação (TI). O texto contém várias secções que abordam a motivação, os métodos, as abordagens, os desafios e as conclusões relacionadas com a descoberta de elementos numa infraestrutura de TI. Apesar de o OCR apresentar alguns erros de escrita (como "Intraduction" em vez de "Introduction" ou "Challarges" em vez de "Challenges"), é possível inferir o significado geral. Abaixo, apresento um resumo detalhado de cada secção relevante do documento, corrigindo os erros óbvios para maior clareza.
-
----
-
-## Estrutura Geral
-O documento está organizado em várias páginas, cada uma com títulos principais como "Introduction" (Introdução), "Motivation" (Motivação), "How" (Como), "Approaches" (Abordagens), "Challenges" (Desafios) e "Conclusion" (Conclusão), seguidos por subtemas específicos que detalham o que, porquê e quando realizar a descoberta em TI. Há também uma menção recorrente a "Cus - Hiso Mirumta" ou variações (provavelmente um erro de OCR para algo como "Curso - Histo Mirumta" ou um nome próprio), sugerindo que isto pode ser material de um curso ou palestra.
+Este documento aborda a importância e as metodologias da descoberta (discovery) numa infraestrutura de TI. A descoberta consiste em identificar, mapear e monitorizar ativos (hardware, software, usuários, dispositivos de rede, etc.) para garantir a segurança, eficiência operacional, conformidade e planeamento estratégico. Além disso, o processo é contínuo, sendo essencial tanto em ambientes Greenfield (novos) quanto em Brownfield (existentes), para detectar e corrigir problemas que possam surgir, como conflitos de rede ou configurações inadequadas.
 
 ---
 
-## Introdução e Motivação
-- **Introdução**: A secção inicial parece servir como uma visão geral do tema "Discovery", que envolve identificar e catalogar elementos numa infraestrutura de TI, como hardware, software, redes e utilizadores.
-- **Motivação**: A motivação para realizar a descoberta está implícita nas secções seguintes, mas sugere-se que é essencial para gerir eficazmente os recursos de TI, garantir segurança, conformidade e planeamento adequado.
+## 1. Introdução e Motivação
+
+- **Propósito da Descoberta**:  
+  A descoberta permite criar um inventário detalhado e atualizado dos ativos, essencial para:
+  - Gerir e planear atualizações de hardware e software.
+  - Detectar falhas e problemas de configuração (por exemplo, conflitos de DHCP ou problemas com gateways).
+  - Assegurar a conformidade com normas de segurança e licenciamento.
+  - Apoiar a resolução de problemas e auditorias.
+
+- **Exemplo Prático**:  
+  Um caso mencionado envolve um Access Point (AP) adquirido, por exemplo, na Worten, que internamente possui um servidor de DHCP com funções de NAT. Este equipamento, quando ligado numa rede sem a devida configuração (como na situação em que o default gateway mudou), provocou conflitos de tráfego e falhas na comunicação de parte dos utilizadores, evidenciando a necessidade de discovery contínuo para identificar “equipamentos estranhos” ou mal configurados.
 
 ---
 
-## Como (How)
-Embora o documento não detalhe explicitamente esta secção em todas as páginas, o título "How" indica que serão discutidos métodos ou processos para realizar a descoberta. Provavelmente, isto inclui ferramentas de monitorização, técnicas manuais ou automáticas, e integração com sistemas de gestão.
+## 2. Metodologias e Ferramentas de Discovery
+
+### 2.1 Agentes e Monitorização Ativa
+
+- **Instalação de Agentes**:  
+  Em PCs e servidores, instalam-se softwares (como o GLPI) que recolhem informações sobre hardware, software, configurações e tráfego, integrando-se com sistemas de ticketing (TTS) para facilitar diagnósticos.
+  
+- **Verificação de Software**:  
+  Métodos não intrusivos – como consulta a registos do sistema, verificação de diretórios (/Programs), execução de comandos (top ou ps) e análise dos nomes dos executáveis – ajudam a identificar quais programas estão instalados.
+
+### 2.2 Escaneamento e Descoberta Ativa de Rede
+
+- **NMAP e Escaneamento de Portas**:  
+  Realiza varreduras nos IPs e portas conhecidas (well-known ports) para identificar aplicações em execução, mesmo quando firewalls bloqueiam pings.
+
+- **Traceroute/ICNP**:  
+  Utilizado para mapear os caminhos percorridos pelos pacotes entre os dispositivos, ajudando a construir um grafo da rede e identificar possíveis gargalos ou pontos de falha.
+
+### 2.3 Inspeção de Tráfego e Monitorização Passiva
+
+- **Análise de Pacotes**:  
+  O exame do tráfego de rede – incluindo endereços MAC de origem e destino, TTL (Time To Live) e outros parâmetros – permite identificar se os pacotes estão a transitar dentro da mesma rede ou a partir de redes externas.  
+  - **TTL**: É um campo que indica o número de saltos (routers) que um pacote pode percorrer antes de ser descartado. Se o TTL não decresce, pode indicar que o tráfego está a ser gerido dentro da mesma rede.
+
+### 2.4 Protocolos e Descoberta de Equipamentos
+
+- **LLDP/CDP (Link Layer Discovery Protocol/ Cisco Discovery Protocol)**:  
+  São protocolos que permitem aos dispositivos de rede anunciar a sua identidade, capacidades e vizinhança. Esses protocolos ajudam a identificar:
+  - Switches e outros dispositivos conectados.
+  - Impressoras, VOIP e outros equipamentos que possam estar ligados na rede.
+  - **Explicação do LLDP**: Este protocolo envia periodicamente mensagens contendo informações como o MAC address e TLVs (Type Length Value), possibilitando a construção de um mapa físico e lógico da rede.
+
+- **SNMP/MIB**:  
+  Através do Simple Network Management Protocol e da Management Information Base, é possível recolher informações detalhadas sobre os dispositivos e seus vizinhos, contribuindo para a montagem de um grafo completo da rede.
 
 ---
 
-## Abordagens (Approaches)
-Semelhante à secção "How", "Approaches" aparece repetidamente, mas não há detalhes específicos fornecidos nas páginas visíveis. Pode referir-se a diferentes estratégias, como descoberta ativa (escaneamento de redes) ou passiva (análise de tráfego), ou ainda a combinação de ferramentas específicas.
+## 3. Componentes do Inventário e Objetivos da Descoberta
+
+### 3.1 Hardware
+
+- **Objetivos**:
+  - Registrar a idade e expectativas de vida dos equipamentos.
+  - Planejar a substituição ou manutenção preventiva.
+  - Identificar “hardware fantasma” – ativos registrados mas não efetivamente em uso.
+  
+- **Contexto Prático**:  
+  Problemas como a alteração do default gateway num servidor de armazenamento (stor) evidenciam a importância de ter um inventário preciso e atualizado para reconfigurar a rede sem interrupções. Durante a mudança, por exemplo, ambos os gateways precisam estar ativos até que o lease time do DHCP seja renovado em todos os dispositivos.
+
+### 3.2 Software
+
+- **Objetivos**:
+  - Verificar versões e atualizações, garantindo a segurança e a compatibilidade.
+  - Gerir licenças e identificar software não autorizado que possa representar riscos ou violações legais.
+
+### 3.3 Utilizadores e Gestão de Acessos
+
+- **Objetivos**:
+  - Monitorizar a movimentação dos utilizadores (entradas e saídas).
+  - Garantir a revogação de permissões de utilizadores que deixam a organização, prevenindo riscos de segurança.
+
+### 3.4 Questões Legais e de Inventário
+
+- **Inventário e Auditoria**:  
+  Manter um registro detalhado de todos os ativos facilita auditorias, garante conformidade com normas legais e auxilia na tomada de decisões estratégicas.
 
 ---
 
-## O Que Descobrir (What to Discover)
-Esta secção, introduzida na página 3, lista os elementos principais que devem ser alvo de descoberta numa infraestrutura de TI:
-- **Redes (Networks)**: Identificar a topologia da rede, dispositivos conectados e configurações.
-- **Sistemas (Systems)**: Refere-se a servidores, estações de trabalho e outros sistemas operativos em uso.
-- **Aplicações (Applications)**: Catalogar software instalado e em execução.
+## 4. Desafios e Considerações Práticas
+
+- **Descoberta Contínua**:  
+  Embora a descoberta possa ser inicialmente efetuada durante a montagem do sistema, ela deve ser um processo permanente, dada a dinâmica das redes (adicionamento, remoção ou alteração de dispositivos).
+
+- **Problemas de Configuração e Conectividade**:  
+  Exemplos práticos, como o conflito de DHCP de um AP mal configurado, mostram a importância de manter uma monitorização constante para identificar dispositivos “fora do padrão” ou que possam causar interferências.
+
+- **Equilíbrio entre Gestão e Privacidade**:  
+  É necessário encontrar um equilíbrio entre recolher informações suficientes para a gestão e respeitar a privacidade dos utilizadores. Este ponto pode exigir políticas internas e discussões éticas aprofundadas.
+
+- **Interoperabilidade dos Métodos**:  
+  Combinar abordagens ativas (escaneamento, agentes) e passivas (inspeção de tráfego, análise de logs de protocolos) enriquece o mapeamento e permite uma visão mais completa da rede.
 
 ---
 
-## Porquê Descobrir (Why to Discover)
-A secção "Why to Discover" é expandida em várias páginas (4 a 7), explicando as razões práticas para a descoberta em diferentes categorias:
+## 5. Considerações Técnicas e Dúvidas Frequentes
 
-### Hardware (Página 4)
-- **Idade (Age)**: Saber a idade do hardware para avaliar obsolescência.
-- **Planeamento de Atualizações (Planning Upgrades)**: Preparar melhorias com base em dados concretos.
-- **Expectativas de Vida Útil (Lifetime Expectations)**: Estimar quanto tempo o hardware ainda será funcional.
-- **Preparar Peças Substituíveis (Prepare Replaceable Parts)**: Garantir stock de peças para manutenção.
-- **Compatibilidade com Atualizações de Software**: Verificar se o hardware suporta novas versões de software.
-- **Discussão Adicional**: Referência a uma "Configuration class" (aula de configuração) para mais detalhes.
-- **Hardware Fantasma (Ghost Hardware)**: Identificar equipamentos que estão registados mas não em uso ou perdidos.
+Durante o processo de discovery, surgem questões que merecem esclarecimento:
 
-### Software (Página 5)
-- **Segurança (Security)**: Identificar vulnerabilidades em software desatualizado.
-- **Versões de Software (Software Versions)**: Garantir que as versões estão atualizadas e compatíveis.
-- **Aplicação de Políticas (Policy Enforcement)**: Verificar conformidade com regras internas.
-- **Proibição de Aplicações (Forbid Some Applications)**: Identificar e bloquear software não autorizado.
-- **Gestão de Licenças (Licensing Management)**: Controlar licenças para evitar violações legais ou custos extras.
+- **O que é um Access Point comprado na Worten?**  
+  Geralmente, refere-se a dispositivos de rede de menor custo, adquiridos em lojas de retalho como a Worten, que podem ter funcionalidades limitadas ou configurações padrão que não se enquadram perfeitamente em ambientes empresariais.
 
-### Utilizadores (Users) (Página 6)
-- **Movimentação de Utilizadores**: Registar entradas e saídas de utilizadores na organização.
-- **Remoção de Permissões**: Garantir que utilizadores que saem percam acesso a sistemas, evitando riscos de segurança.
+- **O que é TTL?**  
+  O TTL (Time To Live) é um campo nos pacotes de rede que indica o número máximo de saltos (routers) que o pacote pode atravessar antes de ser descartado. Serve para evitar loops infinitos e para determinar se um pacote vem de fora ou de dentro da rede local.
 
-### Gestão e Questões Legais (Management/Legal Issues) (Página 7)
-- **Inventário (Inventory)**: Manter uma lista atualizada de todos os ativos de TI.
-- **Auditoria (Auditing)**: Facilitar auditorias internas ou externas com dados precisos.
+- **O que é ICNP?**  
+  Embora menos comum, o termo ICNP pode referir-se a ferramentas ou métodos de mapeamento de caminhos na rede, semelhantes ao traceroute, que ajudam a identificar a rota seguida pelos pacotes.
+
+- **Mapeamento de Métodos**:  
+  Cada método de discovery oferece diferentes níveis de informação:
+  - **Agentes**: Detalhes internos dos PCs, como software instalado e configurações.
+  - **Escaneamento de Portas e NMAP**: Identificação de serviços e aplicações em execução.
+  - **Inspeção de Tráfego**: Verificação do comportamento dos pacotes (TTL, MACs) para inferir topologia e identificar anomalias.
+  - **Protocolos (LLDP, CDP, SNMP)**: Construção do grafo físico e lógico da rede.
+
+- **Explicação Detalhada do LLDP**:  
+  O LLDP (Link Layer Discovery Protocol) permite que os dispositivos de rede anunciem a sua identidade e capacidades para os dispositivos vizinhos através de mensagens periódicas contendo TLVs. Estas informações incluem o identificador do dispositivo, o número de portas, capacidades e outras características, permitindo a construção automática de um mapa detalhado da rede, facilitando o diagnóstico e a gestão dos ativos.
 
 ---
 
-## Quando Descobrir (When to Discover) (Página 8)
-- **Infraestrutura Viva**: A TI é dinâmica, com mudanças constantes, o que torna a descoberta um processo contínuo.
-- **Dificuldade de Acompanhamento**: Os utilizadores e administradores adicionam ou removem elementos frequentemente, dificultando o controlo manual.
-- **Resolução de Problemas**: A descoberta é especialmente crítica quando se tenta diagnosticar ou corrigir falhas.
+## 6. Conclusão
+
+A descoberta em gestão de TI é uma prática indispensável para manter a integridade, segurança e eficiência das infraestruturas de rede. Ao integrar métodos ativos e passivos, utilizar agentes e protocolos como LLDP/CDP e SNMP, e manter um inventário atualizado de hardware, software e utilizadores, é possível antecipar problemas, realizar manutenções preventivas e assegurar a conformidade com políticas internas e legais. A descoberta contínua também possibilita a identificação de dispositivos não autorizados ou mal configurados, garantindo uma rede robusta e preparada para os desafios dinâmicos do ambiente corporativo.
 
 ---
 
-## Desafios (Challenges)
-A secção de desafios é parcialmente detalhada na página 30 com o título "Challenge #2: Policies and Utilization":
-- **Privacidade vs. Gestão**: Há uma linha ténue entre recolher informações para gestão e invadir a privacidade dos utilizadores.
-- **Descobertas Inesperadas**: O que fazer se forem encontrados dados que não deveriam ser acedidos?
-- **Discussão Ética**: Referência a uma "ethics class" (aula de ética) para abordar estas questões aprofundadamente.
-- **Políticas Públicas**: Proteger a organização com políticas claras e divulgadas.
-- **Relevância**: Ligar os dados descobertos a sistemas de monitorização e bases de conhecimento.
-
-Embora apenas o "Challenge #2" esteja especificado, o título "Challenges" aparece em várias páginas, sugerindo que há mais desafios discutidos noutras partes do documento não visíveis aqui.
-
----
-
-## Conclusão (Conclusion)
-A secção "Conclusion" aparece repetidamente (com variações como "Corcluast" ou "Cortuusat" devido a erros de OCR), mas não há detalhes concretos fornecidos nas páginas apresentadas. Provavelmente, resume a importância da descoberta contínua e os benefícios de superar os desafios identificados.
-
----
-
-## Observações Finais
-- **Erros de OCR**: O documento contém muitos erros tipográficos ("Motwation" por "Motivation", "Appraches" por "Approaches"), mas o contexto permite compreender o conteúdo.
-- **Formatação**: Há muitas sequências de zeros ("000000000000000000") que parecem ser artefactos de OCR ou separadores visuais nas páginas.
-- **Autor**: "Cus - Hiso Mirumta" ou variações aparece em quase todas as páginas, possivelmente indicando o autor ou o contexto (como "Curso" ou "Customer").
-
----
-
-## Resumo Final
-Este foca-se na importância da descoberta em TI para gerir hardware, software, utilizadores e questões legais, destacando razões práticas como segurança, planeamento e conformidade. Aborda a necessidade de realizar a descoberta continuamente devido à natureza dinâmica das infraestruturas de TI e aponta desafios éticos, como o equilíbrio entre gestão e privacidade. É um guia útil para administradores de TI ou estudantes, enfatizando a relevância de ferramentas e políticas claras para uma gestão eficaz.
+Este resumo integra não só a estrutura original, mas também casos práticos, detalhes técnicos (como problemas com DHCP e gateways), metodologias diversas e esclarecimentos sobre termos e dúvidas frequentes. Assim, serve como um guia completo para administradores de TI e estudantes que buscam compreender e aplicar o processo de discovery numa rede moderna.
