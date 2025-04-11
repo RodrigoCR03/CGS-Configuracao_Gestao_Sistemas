@@ -1,6 +1,6 @@
 # Monitorização
 
-Este resumo integra as informações fornecidas nos dois documentos, organizando os conceitos relacionados com sistemas de monitorização, processamento de eventos, gestão de dados e balanceamento de carga em bases de dados. O objetivo é apresentar uma visão consolidada, abordando tanto os pontos teóricos como práticos, incluindo exemplos de ferramentas (como Zenoss e Nagios) e detalhes sobre a recolha, pré-processamento, armazenamento e pós-processamento de dados. O texto está estruturado para ser claro e abrangente, mantendo a linguagem técnica em português de Portugal.
+Este resumo está organizado os conceitos relacionados com sistemas de monitorização, processamento de eventos, gestão de dados e balanceamento de carga em bases de dados. O objetivo é apresentar uma visão consolidada, abordando tanto os pontos teóricos como práticos, incluindo exemplos de ferramentas (como Zenoss e Nagios) e detalhes sobre a recolha, pré-processamento, armazenamento e pós-processamento de dados.
 
 ---
 
