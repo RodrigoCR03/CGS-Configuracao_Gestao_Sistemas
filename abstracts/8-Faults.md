@@ -1,7 +1,5 @@
 # Faults: Administração em Sistemas de Informação Tecnológica
 
-# Resumo sobre Falhas na Administração de Sistemas de Informação Tecnológica
-
 ## Introdução ao Conceito de Falhas
 
 Em sistemas distribuídos, as falhas representam um dos desafios mais visíveis e críticos para os administradores de TI. Como definido por Leslie Lamport, "um sistema distribuído é aquele que o impede de trabalhar devido à falha de uma máquina que você nunca ouviu falar". Esta definição ilustra perfeitamente a complexidade inerente à gestão de falhas em ambientes tecnológicos modernos.
