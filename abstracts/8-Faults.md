@@ -1,6 +1,86 @@
 # Faults: Administração em Sistemas de Informação Tecnológica
 
-## Conceito e Impacto das Falhas em Ambientes Distribuídos
+# Resumo sobre Falhas na Administração de Sistemas de Informação Tecnológica
+
+## Introdução ao Conceito de Falhas
+
+Em sistemas distribuídos, as falhas representam um dos desafios mais visíveis e críticos para os administradores de TI. Como definido por Leslie Lamport, "um sistema distribuído é aquele que o impede de trabalhar devido à falha de uma máquina que você nunca ouviu falar". Esta definição ilustra perfeitamente a complexidade inerente à gestão de falhas em ambientes tecnológicos modernos.
+
+## Impacto e Percepção das Falhas
+
+Do ponto de vista dos utilizadores, a qualidade de uma equipe de TI é frequentemente julgada pela sua capacidade de resolver problemas. Os utilizadores geralmente não consideram a complexidade técnica subjacente ou o tempo necessário para corrigir uma falha. Esta realidade impõe uma pressão adicional sobre os administradores de sistemas, que devem não apenas resolver os problemas, mas fazê-lo de forma eficiente e transparente.
+
+## Tipos de Falhas em Sistemas Tecnológicos
+
+As falhas podem ser categorizadas em diferentes dimensões:
+
+1. **Por componentes do sistema**:
+   - Redes
+   - Sistemas operacionais
+   - Aplicações
+   - Configurações
+
+2. **Por aspectos de gestão**:
+   - Descoberta
+   - Monitorização
+   - Análise
+   - Reconfiguração
+   - Relatórios
+
+3. **Por domínios de impacto**:
+   - Contabilidade
+   - Desempenho
+   - Segurança
+
+4. **Por natureza**:
+   - **Permanentes**: falhas de infraestrutura, problemas de configuração, bugs de software
+   - **Transitórias**: reinicializações de componentes, reconfigurações de sistema, alterações de rota
+
+## Fluxo de Trabalho na Gestão de Falhas
+
+O processo de gestão de falhas segue geralmente estas etapas:
+
+1. **Eventos**: Informações brutas detectadas pela infraestrutura de monitorização
+2. **Sintomas**: Expressões do problema derivadas dos eventos
+3. **Causas**: Razões subjacentes que provocam os sintomas
+4. **Resolução**: Implementação de soluções para as causas identificadas
+
+É fundamental entender que nem sempre existe uma relação direta de um-para-um entre eventos e sintomas, o que aumenta a complexidade do diagnóstico.
+
+## Abordagens de Diagnóstico
+
+Existem diversas metodologias para identificar as causas-raiz das falhas:
+
+1. **Análise Topológica**: Examina grafos de dependência para reduzir o espaço de possibilidades
+2. **Biblioteca de Regras**: Utiliza cláusulas condicionais (se/então) para relacionar sintomas a causas
+3. **Árvores de Decisão**: Segue um fluxograma onde os sintomas servem como pontos de decisão
+4. **Grafos de Dependência**: Mapeia as relações entre sintomas e causas
+5. **Codebooks**: Utiliza tabelas com cálculos de Distância de Hamming para automatizar o diagnóstico
+6. **Bases de Conhecimento**: Aproveita documentação interna, sistemas de tickets e informações de fornecedores
+7. **Raciocínio Baseado em Casos**: Aplica soluções de incidentes similares ocorridos no passado
+
+## Estratégias de Mitigação de Falhas
+
+Para minimizar o impacto das falhas, diversas estratégias podem ser implementadas:
+
+1. **Redundância**:
+   - **Standby Frio**: Sistemas de backup ativados apenas quando necessário
+   - **Standby Morno**: Sistemas de backup atualizados periodicamente (ex: servidores DNS)
+   - **Standby Quente**: Sistemas de backup continuamente atualizados (ex: RAID)
+
+2. **Níveis de RAID** para redundância de armazenamento:
+   - RAID 0: Foco em desempenho (sem redundância)
+   - RAID 1: Discos espelhados (50% de redundância)
+   - RAID 5: Proteção contra falha de um único disco
+   - RAID 6: Proteção contra falha de dois discos
+   - RAID 10: Combinação de abordagens
+
+3. **Prevenção**:
+   - Reinicializações automáticas
+   - Gestão de redundância (centralizada ou distribuída)
+
+
+## !MAIS DETALHADO! Conceito e Impacto das Falhas em Ambientes Distribuídos
 
 Os sistemas de informação modernos são inerentemente complexos e distribuídos, criando uma teia de interdependências que amplifica o impacto potencial de falhas. Como observado por Leslie Lamport, "um sistema distribuído é aquele que o impede de trabalhar devido à falha de uma máquina que você nunca ouviu falar". Esta definição captura a essência do problema: em ambientes distribuídos, falhas em componentes aparentemente distantes ou irrelevantes podem causar efeitos cascata devastadores.
 
