@@ -1,5 +1,163 @@
 # Faults: Administração em Sistemas de Informação Tecnológica
 
+Pensou por dois segundos
+
+
+**FCAPS – Gestão de Falhas (Fault Management)**
+
+---
+
+### 1. Visão Geral do Módulo “Fault”
+
+* **Objetivo:** Detetar, isolar e resolver problemas (falhas) no sistema antes que impactem usuários ou serviços críticos.
+* **Desafio:**
+
+  * Sintomas podem ter causas triviais ou múltiplas causas distintas.
+  * Causas diferentes podem gerar sintomas semelhantes.
+  * Rigor temporal: a causa ocorre antes do sintoma, mas nem sempre é imediatamente detetável.
+
+---
+
+### 2. Terminologia Fundamental
+
+| Termo     | Definição                                                                                                | Equivale a            |
+| --------- | -------------------------------------------------------------------------------------------------------- | --------------------- |
+| **Falta** | Estado de componente ou recurso indisponível (ex.: disco avariado).                                      | Causa                 |
+| **Falha** | Incapacidade parcial ou total de executar uma função (ex.: erro de leitura ao aceder ao setor avariado). | Sintoma               |
+| **Erro**  | Resultado incorreto ou inconsistência de dados (ex.: bits corrompidos).                                  | Manifestação da falha |
+
+---
+
+### 3. Base de Conhecimento (Knowledge Base)
+
+1. **Relatórios de Incidente**
+
+   * **Identificador:** Número/Ano
+   * **Datas:**
+
+     * Data de Início do Incidente
+     * Data de Detecção
+     * Data de Resolução
+   * **Conteúdo:**
+
+     * Serviços afetados
+     * Equipa e recursos envolvidos
+     * Resumo do problema
+     * Ações corretivas e medidas preventivas
+   * **Distribuição:** Versão resumida para stakeholders
+
+2. **Wiki Operacional**
+
+   * Documentação viva dos sistemas mantidos
+   * “Como fazer”, procedimentos padrão, scripts de diagnóstico
+
+---
+
+### 4. Técnicas de Diagnóstico
+
+#### 4.1 Case-Based Reasoning (CBR)
+
+* **Regras simples:**
+
+  ```
+  if sintoma1 [and sintoma2 ...] then causaX
+  ```
+
+* **Grafo Bipartido:**
+
+  * Dois conjuntos de nós: sintomas ↔ causas
+  * Arestas indicam associação (1 = existe ligação, 0 = não existe)
+  * Tradução em tabela binária permite comparação de casos antigos
+
+* **Similaridade (Distância de Hamming):**
+
+  * Conta o número de bits diferentes entre o vetor de sintomas atual e vetores históricos
+  * Menor distância → maior probabilidade de corresponder à mesma causa
+
+#### 4.2 Árvores de Decisão
+
+* **Princípio:**
+
+  * Nó interno = verificação de um sintoma
+  * Ramo = resposta (sim/não)
+  * Folha = causa inferida
+* **Vantagem:** simples, transparente e eficiente para conjuntos de sintomas bem definidos
+
+#### 4.3 Análise de Topologia
+
+* **Modelo de Rede:**
+
+  * Grafo que representa nós (componentes) e arestas (conectividade)
+* **Diagnóstico:**
+
+  * Testes de conectividade em pontos estratégicos
+  * Pontos que falham na comunicação revelam segmento/proximidade da falha
+
+---
+
+### 5. Classes de Falhas e Faltas
+
+1. **Infraestrutura / Hardware**
+
+   * MTBF (Mean Time Between Failures): tempo médio de operação até falhar
+   * Faltas permanentes (avarias)
+
+2. **Transientes**
+
+   * Reinícios espontâneos
+   * Reconfigurações dinâmicas
+
+3. **Configuração**
+
+   * Erros de parametrização
+   * Incompatibilidades
+
+4. **Software / Lógico**
+
+   * Bugs
+   * Comportamentos inesperados
+
+5. **Segurança**
+
+   * Pedidos incorretos
+   * Potenciais ataques (ex.: DoS, injeção de comandos)
+
+---
+
+### 6. Tolerância a Falhas e RAID
+
+#### 6.1 Conceito de Redundância
+
+* Sacrifica-se capacidade em favor de disponibilidade e integridade
+
+#### 6.2 Níveis de RAID
+
+| Nível  | Descrição                                                                                           |
+| ------ | --------------------------------------------------------------------------------------------------- |
+| **0**  | *Striping* sem redundância. Combina discos em um volume único. → Maior desempenho, sem tolerância.  |
+| **1**  | *Mirroring*. Cada disco tem cópia idêntica. Leitura mais rápida; escrita replicada.                 |
+| **5**  | *Striping* com paridade distribuída. Dedica espaço equivalente a 1 disco para paridade (XOR).       |
+| **6**  | Paridade dupla. Tolerância a falha de até 2 discos; overhead de 2 discos para paridade.             |
+| **10** | *Stripe* de espelhos (RAID 1+0). Combina mirror (1) e striping (0): alta performance e resiliência. |
+
+> **Dica:** Desfase de MTBF entre discos reduz risco de falhas simultâneas.
+
+---
+
+### 7. Mecanismos de Standby
+
+* **Cold Standby:** reserva desligada → tempo de recuperação mais alto; útil onde estado não é crítico.
+* **Warm Standby:** réplica recebe atualizações mas permanece em repouso até falha → recuperação intercalar.
+* **Hot Standby:** primário e secundário sincronizados em tempo real → troca quase instantânea.
+
+---
+
+**Conclusão:**
+A Gestão de Falhas em FCAPS exige um conjunto integrado de técnicas — desde bases de conhecimento e regras simples até análise de grafos e topologia — aliado a políticas de redundância (RAID, standbys) para garantir alta disponibilidade e rápida recuperação.
+
+
+---
+
 ## Introdução ao Conceito de Falhas
 
 Em sistemas distribuídos, as falhas representam um dos desafios mais visíveis e críticos para os administradores de TI. Como definido por Leslie Lamport, "um sistema distribuído é aquele que o impede de trabalhar devido à falha de uma máquina que você nunca ouviu falar". Esta definição ilustra perfeitamente a complexidade inerente à gestão de falhas em ambientes tecnológicos modernos.
