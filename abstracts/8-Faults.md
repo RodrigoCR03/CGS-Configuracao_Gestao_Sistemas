@@ -1,8 +1,5 @@
 # Faults: Administração em Sistemas de Informação Tecnológica
 
-Pensou por dois segundos
-
-
 **FCAPS – Gestão de Falhas (Fault Management)**
 
 ---
