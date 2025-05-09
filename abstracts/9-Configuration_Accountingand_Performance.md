@@ -1,96 +1,194 @@
-# Configuration,Accountingand e Performance
+# FCAPS - Configuração
 
-Este conjunto de notas preparado por Cus Hispo Miranda (ou variações do nome como "Hiso Miranda" ou "Hiso Mirumta", possivelmente devido a erros de OCR). O foco principal é abordar os desafios e conceitos relacionados com a configuração de sistemas, a gestão de patches, a contabilidade e o desempenho em redes ou sistemas tecnológicos. Abaixo está um resumo detalhado de cada secção relevante, com explicações para clarificar os pontos apresentados.
+## 1. Introdução à Configuração em FCAPS
 
----
+No modelo FCAPS (Fault, Configuration, Accounting, Performance, Security), a **Configuração** representa um aspeto fundamental da gestão de sistemas. É importante compreender que a configuração vai muito além da simples alteração de parâmetros nas definições ou num ficheiro de texto. Trata-se de um processo estruturado que envolve múltiplos componentes e considerações.
 
-## Introdução (Página 3)
-- **Título**: "The Cube" (O Cubo)
-- **Subtítulos**: Network (Rede), Systems (Sistemas), Applications (Aplicações)
-- **Responsável**: Cus - Hiso Miranda
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: Esta página parece ser a introdução ao tema, sugerindo que o "Cubo" pode ser uma metáfora ou um modelo conceptual para entender as interligações entre redes, sistemas e aplicações no contexto da configuração, contabilidade e desempenho. Não há detalhes adicionais, mas estabelece o âmbito geral da discussão.
+## 2. Gestão de Valores de Configuração
 
----
+### 2.1 Configuração Integrada
 
-## Os Desafios da Configuração (Página 4)
-- **Título**: "The Challenges of Configuration" (Os Desafios da Configuração)
-- **Subtítulos e Pontos**:
-  - **Gestão de Valores de Configuração**:
-    - Preservar ficheiros de configuração.
-    - Manter os valores de configuração "consistentes".
-  - **Gestão de Patches**:
-    - Quando e porquê atualizar software e hardware.
-- **Responsável**: Cus - Hispo Miranda
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: Esta secção destaca dois desafios principais na configuração de sistemas. Primeiro, a gestão de valores de configuração envolve garantir que os ficheiros onde essas configurações estão armazenadas sejam preservados e que os valores permaneçam consistentes para evitar falhas ou comportamentos inesperados nos sistemas. Segundo, a gestão de patches aborda a decisão estratégica de quando e por que razão atualizar software e hardware, provavelmente para corrigir vulnerabilidades, melhorar funcionalidades ou garantir compatibilidade.
+Um dos princípios fundamentais na gestão de configuração é a necessidade de configurar não apenas o programa principal, mas também todas as suas dependências. Esta abordagem previne problemas como o caso mencionado nas notas, onde uma aplicação deixou de funcionar porque o MySQL foi atualizado em produção, mas não em desenvolvimento.
 
----
+### 2.2 Descoberta de Configurações
 
-## Porquê Contabilidade e Desempenho? (Página 5)
-- **Título**: "Why Accounting and Performance" (Porquê Contabilidade e Desempenho)
-- **Pontos**:
-  - Mostrar que as expectativas/contratos são cumpridos.
-  - Faturar os clientes.
-  - Antecipar/detetar problemas de desempenho.
-  - Manter o utilizador satisfeito.
-  - Suportar decisões de gestão.
-- **Responsável**: Cus - Hispo Miranda
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: Aqui, o documento justifica a importância da contabilidade (accounting) e do desempenho (performance) em sistemas tecnológicos. A contabilidade refere-se ao registo de métricas ou indicadores que comprovem o cumprimento de acordos (como SLAs - Service Level Agreements), permitam a faturação precisa aos clientes e ajudem na deteção de problemas antes que afetem o sistema. O desempenho está ligado à satisfação do utilizador e à tomada de decisões informadas pela gestão, sublinhando a necessidade de monitorização contínua.
+Antes de iniciar o processo de configuração propriamente dito, é essencial realizar a **Descoberta** das configurações existentes. Este passo requer:
 
----
+- Agentes especializados que convertam informações de diferentes fontes para um formato padrão
+- Mecanismos para recolher configurações de equipamentos heterogéneos
+- Ferramentas para análise e utilização posterior destas configurações
 
-## O Desafio: Configuração como Base de Dados (Página 6)
-- **Título**: "The Challenge" (O Desafio)
-- **Ponto Principal**:
-  - Os parâmetros e valores de configuração são uma base de dados.
-  - O desafio é manter as réplicas consistentes.
-- **Responsável**: Cus - Hiso Mirania
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: Esta secção apresenta a configuração como uma "base de dados" de parâmetros e valores que definem o funcionamento do sistema. O grande desafio é assegurar que, em sistemas distribuídos (onde existem várias cópias ou réplicas desses dados), todas as réplicas sejam mantidas consistentes. Inconsistências poderiam levar a falhas ou comportamentos erráticos, sendo este um problema central na gestão de configurações em larga escala.
+## 3. CMDB (Configuration Management Database)
 
----
+A CMDB é uma base de dados centralizada que armazena informações sobre todos os componentes de um sistema de informação.
 
-## Métricas Comuns de Desempenho (Página 42)
-- **Título**: "Common Performance Metrics" (Métricas Comuns de Desempenho)
-- **Nota**: A discutir na aula de planeamento.
-- **Métricas Listadas**:
-  - **Workload** (Carga de Trabalho): pacotes por segundo (packets/s).
-  - **Utilization** (Utilização): 35%.
-  - **Throughput** (Vazão): pacotes por segundo (packets/s).
-  - **Response Time** (Tempo de Resposta): 25 milissegundos (ms).
-  - **Loss Rate** (Taxa de Perda): 2%.
-- **Responsável**: Cus - Hiso Mirumta
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: Esta secção apresenta exemplos de métricas usadas para avaliar o desempenho de sistemas ou redes. A carga de trabalho mede a quantidade de dados processados por segundo; a utilização indica a percentagem de capacidade usada (35% neste exemplo); a vazão reflete a taxa de transferência de dados; o tempo de resposta mede a latência (25 ms); e a taxa de perda indica a percentagem de dados perdidos (2%). Estas métricas são fundamentais para monitorizar e otimizar sistemas, e a nota sugere que serão aprofundadas numa aula futura.
+### 3.1 Métodos de Recolha de Configurações
 
----
+- **Para equipamentos de rede (Switches):** Utilização do protocolo **SNMP** (Simple Network Management Protocol)
+  - Uso da operação **GetNext()** para recolha iterativa de configurações
+  - Processo: Inicia-se com GetNext(1), utiliza-se o OID devolvido para fazer GetNext novamente, e assim sucessivamente
+  - Cada operação GetNext devolve um par (OID+1, Value)
 
-## Conclusão (Página 45)
-- **Título**: "Wrap Up" (Conclusão)
-- **Divisão da Configuração**:
-  - **Gestão de Valores de Configuração**:
-    - O desafio é mantê-los consistentes para que o sistema funcione corretamente.
-  - **Gestão de Patches**:
-    - Quando e porquê atualizar software e hardware.
-  - **Contabilidade**:
-    - Registar vários indicadores (não apenas de desempenho).
-  - **Desempenho**:
-    - Tal como com falhas, requer identificação e diagnóstico.
-    - O desafio está na identificação.
-- **Responsável**: Cus - Hispo Minanda
-- **Tema**: Configuração, Contabilidade e Desempenho
-- **Explicação**: A conclusão resume os tópicos principais do documento. A gestão de valores de configuração foca na consistência como fator crítico para o funcionamento do sistema. A gestão de patches reitera a importância de atualizações estratégicas. A contabilidade abrange o registo de indicadores variados, indo além do desempenho, como custos ou uso de recursos. O desempenho é comparado à gestão de falhas, onde identificar problemas é mais difícil do que resolvê-los, destacando a necessidade de ferramentas e métodos eficazes de monitorização.
+- **Para serviços como o Apache:** Utilização de ficheiros de configuração em texto
+  - Não é possível utilizar SNMP, o que contribui para a heterogeneidade da base de dados
 
----
+### 3.2 Estrutura da CMDB
 
-## Observações Gerais
-- **Erros de OCR**: O documento contém vários erros de OCR (ex.: "Perkonance" em vez de "Performance", "Miranda" escrito como "Mirania" ou "Minanda"). Isso sugere que o texto foi digitalizado a partir de um original impresso ou manuscrito.
-- **Páginas em Branco ou Repetitivas**: Muitas páginas (ex.: 1, 2, 7, 8, 43, 44) contêm apenas sequências de zeros ou barras verticais, possivelmente devido a falhas de OCR ou páginas em branco no original.
-- **Estrutura**: O documento parece ser uma apresentação com diapositivos, dado o formato conciso e a repetição do título "Configuration, Accounting and Performance" em várias páginas.
+A CMDB deve armazenar, para cada configuração:
+- Nome do parâmetro
+- Valor do parâmetro
+- Histórico completo de alterações (quem alterou e quando)
 
----
+### 3.3 Gestão de Dependências
 
-## Conclusão Final
-O documento aborda os fundamentos da gestão de sistemas tecnológicos, com ênfase na configuração (valores consistentes e atualizações), contabilidade (registo de indicadores) e desempenho (monitorização e diagnóstico). Apesar de breve, fornece uma visão clara dos desafios e das razões para monitorizar estes aspetos, sendo útil para profissionais ou estudantes de áreas como administração de redes, sistemas distribuídos ou gestão de TI. As métricas específicas e os exemplos práticos (como 35% de utilização ou 25 ms de tempo de resposta) ajudam a contextualizar os conceitos teóricos.
+A gestão de dependências representa um dos maiores desafios na CMDB devido à sua complexidade:
+
+- **Hierarquia de dependências:** Cada componente pode depender de outros que, por sua vez, têm as suas próprias dependências
+- **Dependências de versões:** Aplicações podem depender de versões específicas de outros componentes
+- **Dependências entre plugins:** Plugins podem depender uns dos outros
+- **Dependências técnicas:** Entre plugins e linguagens de programação
+- **Diversidade de componentes:** Para além de aplicações, existem firewalls, proxies, load balancers, servidores e outros equipamentos
+- **Heterogeneidade:** Existem muitos tipos diferentes de dependências
+
+### 3.4 Benefícios da CMDB
+
+- **Integração entre departamentos:** Funciona como uma base de dados transversal a toda a organização
+- **Validação:** Permite validar ficheiros de configuração por comparação com versões guardadas
+- **Análise "What If":** Possibilita a análise de impacto antes de implementar alterações
+- **Migrações:** Facilita processos de migração de sistemas
+- **Clonagem de configurações:** Permite replicar configurações entre sistemas similares
+
+## 4. Scripts e Workflows
+
+A automatização através de scripts e workflows é essencial para uma gestão de configuração eficiente.
+
+### 4.1 Exemplo: Script para Criação de Conta
+
+Um script pode automatizar tarefas como:
+- Definição de login e endereços
+- Criação de área de utilizador
+- Criação de mailbox
+- Criação de área no Cirrus
+- Registo no Census
+- Outras tarefas necessárias
+
+### 4.2 Vantagens da Automatização
+
+- **Redução de trabalho manual:** Diminui o esforço necessário para realizar tarefas repetitivas
+- **Minimização de erros:** Reduz a probabilidade de erros humanos
+- **Normalização:** Garante que os processos são executados sempre da mesma forma
+- **Troubleshooting simplificado:** Facilita a identificação e resolução de problemas
+- **Alterações em massa:** Permite implementar alterações em múltiplos sistemas de forma consistente
+
+## 5. Gestão de Políticas e Configurações
+
+### 5.1 Active Directory (Microsoft)
+
+O Active Directory (AD) é uma solução da Microsoft para gestão de políticas que:
+- Trata todos os elementos como objetos
+- Permite criar grupos de objetos
+- Possibilita a atribuição de regras a grupos específicos
+- Oferece excelentes capacidades para gestão de políticas
+- Utiliza o protocolo LDAP para comunicação
+- Tem como desvantagem ser limitado ao ambiente Windows
+
+### 5.2 Ferramentas para Gestão de Políticas em Equipamentos
+
+#### 5.2.1 Puppet/Chef
+- **Abordagem declarativa:** Especifica o estado final desejado para os equipamentos
+- O sistema determina automaticamente como atingir esse estado
+
+#### 5.2.2 Ansible
+- Estabelece ligações SSH para os equipamentos alvo
+- Aplica configurações diretamente através dessas ligações
+
+### 5.3 Fwbuilder
+
+- Ferramenta para criação de configurações abstratas de firewalls
+- Interface gráfica com funcionalidades de arrastar e soltar (drag and drop)
+- Converte configurações para formatos específicos de diferentes marcas de firewalls
+
+### 5.4 FOG (Free Open Ghost)
+
+Sistema de clonagem e gestão de imagens para computadores em rede, frequentemente utilizado em conjunto com PXE.
+
+## 6. Gestão de Atualizações (Patch Management)
+
+A gestão de atualizações é um processo crítico que deve balancear a necessidade de manter os sistemas atualizados com a estabilidade operacional.
+
+### 6.1 Princípios Básicos
+- **Estabilidade:** "Se está a funcionar, não mexer" é um princípio importante
+- **Atualização seletiva:** Nem todas as atualizações devem ser implementadas imediatamente
+
+### 6.2 Processo de Gestão de Atualizações
+
+#### 6.2.1 Descoberta
+- Identificação da disponibilidade de atualizações
+- Atualmente facilitado por notificações automáticas dos próprios sistemas
+
+#### 6.2.2 Avaliação
+A decisão de implementar uma atualização deve considerar:
+
+- **Segurança**
+  - Geralmente prioritárias, mas deve-se avaliar:
+  - A relevância da vulnerabilidade no contexto específico
+  - O potencial para introdução de novos erros
+
+- **Custos**
+  - Tempo de inatividade (downtime)
+  - Recursos humanos necessários
+  - Potencial necessidade de atualização de hardware
+  - Aumento de requisitos de processamento ou memória
+
+- **Compatibilidade**
+  - Impacto nas dependências existentes
+  - Necessidade de testes abrangentes antes da implementação em produção
+
+#### 6.2.3 Testes
+- Utilização de servidores virtuais para replicar o ambiente de produção
+- Implementação da atualização no ambiente de teste
+- Execução de um plano de testes estruturado
+- Avaliação da ordem correta para implementação das atualizações
+
+#### 6.2.4 Instalação
+- Implementação das atualizações aprovadas
+- Possibilidade de adiar ou rejeitar atualizações com base nos resultados dos testes
+
+## 7. PXE (Preboot Execution Environment)
+
+O PXE é uma tecnologia que permite o arranque de computadores através da rede.
+
+### 7.1 Funcionamento
+- É uma funcionalidade incorporada nas placas de rede modernas
+- Apresenta-se à BIOS como uma alternativa de arranque ao disco ou pen drive
+- Permite carregar o sistema operativo através da rede
+
+### 7.2 Processo de Arranque PXE
+1. O computador envia um pedido DHCP, solicitando um sistema operativo
+2. O pedido propaga-se por broadcast até alcançar o servidor FOG
+3. O servidor, que mantém uma base de dados de endereços MAC dos computadores, responde com:
+   - Um endereço IP (resposta DHCP normal)
+   - Um "nextserver" e um "filename" (para acesso TFTP)
+4. O computador utiliza estas informações para descarregar a imagem do sistema operativo
+5. A imagem é escrita no disco local para servir como sistema operativo
+
+### 7.3 Aplicação Prática (Exemplo FCUL)
+- Aquisição de 25 computadores idênticos (24 + 1 reserva)
+- O computador reserva é configurado com todas as aplicações e definições necessárias
+- Os restantes 24 computadores, quando arrancam por PXE, recebem a imagem do computador configurado
+- Após a configuração inicial, apenas são instaladas as diferenças (diffs) e não a imagem completa
+- Um agente instalado nos computadores gere estas atualizações incrementais
+
+## 8. Wake on LAN
+
+O Wake on LAN é uma tecnologia que permite ligar remotamente um computador.
+
+### 8.1 Funcionamento
+- A placa de rede permanece parcialmente ativa mesmo quando o computador está desligado
+- Ao receber um pacote especial (Magic Packet), a placa inicia o processo de arranque do computador
+- Esta funcionalidade pode ser combinada com PXE para automatizar completamente o processo de arranque e configuração
+
+### 8.2 Aplicações
+- Manutenção remota fora do horário de expediente
+- Implementação automatizada de atualizações
+- Preparação de salas de computadores para utilização
