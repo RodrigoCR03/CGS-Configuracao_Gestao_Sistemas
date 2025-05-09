@@ -192,3 +192,126 @@ O Wake on LAN é uma tecnologia que permite ligar remotamente um computador.
 - Manutenção remota fora do horário de expediente
 - Implementação automatizada de atualizações
 - Preparação de salas de computadores para utilização
+
+---
+
+# Análise das Métricas e Resiliência no Dimensionamento de Sistemas
+
+Analisei o documento de slides completo sobre dimensionamento de sistemas. O material aborda conceitos fundamentais para entender o desempenho de sistemas, modelar componentes e analisar métricas de performance e resiliência. Vou apresentar uma síntese organizada do conteúdo.
+
+## Motivação para Dimensionamento de Sistemas
+
+O dimensionamento visa responder perguntas críticas como:
+- Por que o sistema está (ou estará) lento?
+- Quais são os gargalos?
+- O sistema suportará carga adicional?
+- Quantas réplicas são necessárias?
+- Como a carga flui entre componentes?
+- Qual carga esperar?
+
+## Passos para Entender o Desempenho
+
+1. Criar um modelo dividindo o sistema em componentes
+2. Preencher com métricas de desempenho (estimativas, valores observados, dados de fornecedores)
+3. Analisar o modelo (simulação ou análise matemática)
+4. Ajustar o modelo e repetir o processo
+
+## Métricas Principais
+
+### 1. Workload (Carga de trabalho)
+- **Definição**: Quantidade de trabalho por unidade de tempo
+- **Unidade**: trabalho/tempo (ex: pacotes/s)
+- **Observação**: A carga pode diferir entre componentes (ex: 1 requisição HTTP pode gerar múltiplos pacotes IP)
+
+### 2. Capacity (Capacidade)
+- **Definição**: Throughput máximo possível do componente
+- **Unidade**: trabalho/tempo
+
+### 3. Response Time (Tempo de resposta)
+- **Definição**: Tempo necessário para o componente responder a uma requisição
+- **Unidade**: tempo
+- **Observação**: Não é constante, depende do tipo de requisição
+
+### 4. Loss Rate (Taxa de perda)
+- **Definição**: Fração de requisições sem resposta ou com resposta errônea
+- **Unidade**: %
+
+### 5. Throughput (Taxa de transferência)
+- **Definição**: Quantidade de trabalho por unidade de tempo que recebe resposta normal
+- **Unidade**: trabalho/tempo
+
+### 6. Utilization (Utilização)
+- **Definição**: Fração de tempo em que o componente está ocupado
+- **Unidade**: %
+- **Regra prática**: Visar 30% de utilização
+
+## Leis Fundamentais
+
+### 1. Lei da Utilização
+- A utilização média de qualquer componente é o throughput do sistema multiplicado pelo tempo de serviço de cada requisição naquele componente
+- **Fórmula**: Utilização = throughput × (tempo/réplicas)
+
+### 2. Lei de Little
+- O número médio de requisições pendentes em qualquer sistema é igual à taxa média de chegada multiplicada pelo tempo médio gasto pela requisição no sistema
+- **Fórmula**: clientes = throughput × tempo_resposta
+
+### 3. Lei do Fluxo Forçado
+- O throughput em diferentes componentes é proporcional ao número de vezes que cada componente precisa lidar com cada requisição
+- Se o throughput de um componente x é Tx e o throughput do sistema S é Ts, cada requisição visita Tx/Ty o componente
+
+## Dimensionamento e Distribuição
+
+### Regra dos 3-σ
+- A maioria dos valores em qualquer distribuição com média m e desvio padrão σ está dentro do intervalo [m-3σ, m+3σ]
+- Usada para evitar filas e dimensionar recursos apropriadamente
+
+### Teoria das Filas de Espera
+- Lida com chegadas não uniformes de requisições
+- Distribuições populares: Determinística, Geral, Poisson
+
+### Notação de Filas (A/B/C)
+- A: distribuição de entrada
+- B: distribuição de serviço
+- C: número de réplicas
+- Distribuições típicas: M (Poisson), D (Determinística), G (Geral)
+
+### Aplicações (M/M/1 e M/D/1)
+- Para M/M/1 (quando ρ < 1):
+  - Atraso médio: 1/μ(1-ρ)
+  - Requisições pendentes: ρ/(1-ρ)
+- Para M/D/1 (quando ρ < 1):
+  - Atraso médio: 1/2(μ-λ) + 1/2μ
+  - Requisições pendentes: 1 + ρ²/2(1-ρ)
+
+## Resiliência
+
+### Métricas de Resiliência
+- **MTBF** (Mean Time Between Failures): Tempo previsto entre falhas
+- **N 9's**: Proporção de tempo em que o sistema está disponível
+  - 99,999% (5 noves): 5,26 minutos indisponível por ano
+  - 99,99% (4 noves): 52 minutos indisponível por ano
+
+### Modelos de Resiliência
+
+#### 1. Serial (Componentes em série)
+- Sistema funciona se TODOS os componentes funcionarem
+- Probabilidade = Pp × Pq (onde Pp e Pq são probabilidades dos componentes p e q estarem corretos)
+- Alternativa: 1 - [(1-Pp) × (1-Pq)]
+
+#### 2. Paralelo (Componentes em paralelo)
+- Sistema funciona se PELO MENOS UM componente funcionar
+- Probabilidade = 1 - [(1-Pp) × (1-Pq)]
+- Alternativa: (Pp × Pq) + [Pp × (1-Pq)] + [(1-Pp) × Pq]
+
+#### 3. Blocos
+- Tratar cada bloco separadamente e compor blocos em série
+- Sistemas em paralelo são mais resilientes que sistemas em série
+
+## Relações entre Métricas
+
+É fundamental entender como as métricas se relacionam:
+- Quando a utilização se aproxima da capacidade, o tempo de resposta aumenta drasticamente
+- Aumentar a utilização pode ser feito reduzindo o throughput, diminuindo o tempo de processamento ou aumentando o número de réplicas
+- A resiliência depende da arquitetura do sistema (serial vs. paralelo)
+
+Esta análise abrange as métricas essenciais e conceitos de resiliência apresentados no documento, proporcionando uma base para dimensionar sistemas eficientemente.
