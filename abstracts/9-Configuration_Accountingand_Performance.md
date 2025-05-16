@@ -226,6 +226,7 @@ O Wake on LAN é uma tecnologia que permite ligar remotamente um computador.
 | **Sistema**    | Ping, agentes (ex.: Telegraf, Zabbix agents) | Verificação de disponibilidade e métricas de CPU, memória.          |
 | **Aplicações** | Logs, proxies, agentes, NetFlow              | Registo de transações, tempos de resposta, fluxos de dados.         |
 
+IPFix/NetFlow(Cisco) - Protoclo para contactar um equipamento de Rede e definir um Flow.
 ---
 
 ## 2. Performance
