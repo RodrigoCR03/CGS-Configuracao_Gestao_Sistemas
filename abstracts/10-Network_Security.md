@@ -1,4 +1,4 @@
-# Fundamentos de Segurança de Sistemas de Informação
+# Security (FCAPS): Fundamentos de Segurança de Sistemas de Informação
 
 Este é sobre segurança em sistemas de redes, com ênfase em conceitos práticos e exemplos relacionados com autenticação, controlo de acesso, não-repúdio e disponibilidade de serviços e dados. Não se trata de um curso intensivo de segurança em TI, mas sim de uma introdução a aspectos-chave, destinada a fornecer uma base compreensível. A autoria é atribuída a "Cus - Hiso Mirumta" (provavelmente um erro de OCR para "Curso - Hiso Miranda"). Abaixo está o resumo detalhado de cada secção.
 
