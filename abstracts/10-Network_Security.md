@@ -1,6 +1,88 @@
-# Network Security
+# Security (FCAPS): Fundamentos de Segurança de Sistemas de Informação
 
 Este é sobre segurança em sistemas de redes, com ênfase em conceitos práticos e exemplos relacionados com autenticação, controlo de acesso, não-repúdio e disponibilidade de serviços e dados. Não se trata de um curso intensivo de segurança em TI, mas sim de uma introdução a aspectos-chave, destinada a fornecer uma base compreensível. A autoria é atribuída a "Cus - Hiso Mirumta" (provavelmente um erro de OCR para "Curso - Hiso Miranda"). Abaixo está o resumo detalhado de cada secção.
+
+---
+
+## Os Pilares da Segurança (FCAP**S**)
+
+A segurança da informação assenta em cinco pilares fundamentais que garantem a proteção completa dos sistemas e dados organizacionais.
+
+### Autenticação - Verificar "Quem És"
+
+A autenticação constitui a primeira linha de defesa, estabelecendo a identidade dos utilizadores. Para implementar uma autenticação robusta, deve considerar-se a autenticação de dois factores (2FA), que adiciona uma camada extra de segurança sem complicar desnecessariamente os processos. A Chave Móvel Digital representa uma solução nacional eficaz, enquanto o Single Sign-On (SSO) permite que os utilizadores acedam a múltiplos sistemas com uma única credencial, reduzindo a fadiga de passwords e melhorando a experiência do utilizador.
+
+O SSO funciona através de um servidor de autenticação centralizado que gere credenciais partilhadas entre diferentes aplicações. Isto significa que, uma vez autenticado, o utilizador pode aceder a todos os sistemas autorizados sem necessidade de novas autenticações. Complementarmente, a Autenticação de Múltiplos Factores (MFA) fortalece ainda mais este processo, exigindo pelo menos dois elementos diferentes para verificar a identidade.
+
+### Confidencialidade - Proteger "O Quê"
+
+A confidencialidade garante que apenas pessoas autorizadas acedem à informação. Este pilar encontra-se intimamente ligado ao Regulamento Geral sobre a Proteção de Dados (RGPD), que estabelece as regras legais para o tratamento de dados pessoais.
+
+A criptografia constitui a ferramenta fundamental para garantir confidencialidade. As chaves privadas e públicas permitem cifrar informação de forma que apenas o destinatário autorizado a possa decifrar. Os certificados digitais complementam este sistema, fornecendo uma forma de verificar a autenticidade das chaves públicas.
+
+As partições cifradas representam uma medida de proteção adicional, disponível tanto em sistemas Linux como Windows. Esta tecnologia garante que, mesmo com acesso físico ao disco, os dados permanecem inacessíveis sem as credenciais adequadas. Em cenários de alto risco, podem implementar-se "botões de autodestruição" através de daemons que contactam servidores centrais, permitindo o apagamento remoto de dados sensíveis quando necessário.
+
+### Integridade - Garantir "Como Está"
+
+A integridade assegura que os dados não foram alterados de forma não autorizada. Os backups constituem o mecanismo fundamental para manter a integridade, permitindo restaurar sistemas e dados para estados anteriores conhecidos e confiáveis.
+
+Os backups servem dois propósitos essenciais: repor sistemas escolhendo pontos específicos no tempo para restauro, e manter um histórico que pode ser crucial para auditoria e conformidade legal. Esta funcionalidade de arquivo histórico revela-se particularmente importante para efeitos contabilísticos e de compliance.
+
+Existem três tipos principais de backup, cada um com as suas vantagens específicas. O backup completo (Full) copia todo o disco, oferecendo simplicidade máxima na recuperação. O backup diferencial (Diff) compara o estado atual com o último backup completo, guardando apenas as diferenças, permitindo estratégias como backups completos mensais combinados com diferenciais diários. O backup incremental guarda apenas as informações novas relativamente ao último backup, independentemente do seu tipo, optimizando o espaço de armazenamento.
+
+Em termos de facilidade de recuperação, a hierarquia é clara: Full > Diferencial > Incremental. Quanto mais simples o tipo de backup, mais rápida e directa é a recuperação.
+
+Contudo, os backups enfrentam desafios legais significativos, particularmente com o direito ao esquecimento do RGPD. As organizações são obrigadas a apagar informações pessoais a pedido, mas isto torna-se impraticável com backups históricos de 20+ anos armazenados em fitas magnéticas.
+
+### Não Repúdio - Provar "Quando e Por Quem"
+
+O não repúdio garante que as acções realizadas não podem ser negadas posteriormente. Isto consegue-se principalmente através da manutenção de logs detalhados, que requerem espaço de armazenamento significativo e podem ser enviados para sistemas SIEM (Security Information and Event Management) para análise.
+
+Para que os logs tenham validade jurídica, é fundamental garantir a sua integridade. Tecnologias como blockchain podem ser utilizadas para criar registos imutáveis que comprovem que os logs não foram alterados após a sua criação.
+
+O objectivo é duplo: conseguir provar que os utilizadores realizaram actividades inadequadas quando necessário, e manter um registo completo de quem fez o quê e quando, para efeitos de auditoria e investigação.
+
+### Disponibilidade - Garantir "Quando Precisas"
+
+A disponibilidade assegura que os sistemas e dados estão acessíveis quando necessário. Este pilar conecta-se directamente com os conceitos de RPO (Recovery Point Objective) e RTO (Recovery Time Objective).
+
+O RPO define qual o tempo do backup mais recente, ou seja, quantos dados podem ser perdidos em caso de falha. O RTO especifica quanto tempo é necessário para restaurar o sistema a partir dos backups. Estes dois indicadores são cruciais para definir estratégias de backup e recuperação adequadas às necessidades do negócio.
+
+## Estratégias de Proteção e Governança
+
+### Políticas de Segurança
+
+As políticas constituem ferramentas fundamentais para impor regras de segurança de forma consistente. Servem como referência que remove a responsabilidade das equipas de suporte de primeira linha, transferindo-a para os administradores. Isto inclui considerações sobre legislação aplicável e conformidade com o RGPD.
+
+### Auditoria e Avaliação
+
+A auditoria de segurança pode ser realizada através de várias abordagens complementares. O pentesting envolve contratar empresas especializadas para tentar comprometer a segurança organizacional, permitindo identificar e corrigir vulnerabilidades antes que sejam exploradas maliciosamente.
+
+O GVM (provavelmente Greenbone Vulnerability Management) compara descobertas sobre a rede com bases de dados de vulnerabilidades conhecidas (CVE - Common Vulnerabilities and Exposures), gerando relatórios detalhados sobre potenciais riscos.
+
+As checklists proporcionam uma abordagem sistemática, definindo verificações regulares que devem ser realizadas para manter os níveis de segurança adequados.
+
+Os serviços de rating agregam informação sobre organizações através de vários meios, oferecendo avaliações de segurança sem necessidade de pentesting directo. Estas empresas podem alertar para vulnerabilidades e permitir que as organizações paguem para incluir os seus ratings em listas públicas.
+
+## Desafios e Considerações Práticas
+
+### Resistência dos Utilizadores
+
+Qualquer mecanismo de segurança encontra resistência natural dos utilizadores, que o percepcionam como um obstáculo que complica e atrasa o seu trabalho. Isto leva frequentemente a comportamentos de contorno, como utilizar post-its para passwords ou gravar credenciais no browser, comprometendo a segurança pretendida.
+
+### Tecnologias Emergentes e Ameaças
+
+A cloud computing introduz novos riscos, como a capacidade dos atacantes cifrarem dados rapidamente através de ransomware. Contudo, surgem também novas protecções, como tecnologias "write once" que permitem apenas escrita, tornando o apagamento um processo demorado que não pode ser realizado apenas com credenciais de root.
+
+### Air Gap e Isolamento
+
+O air gap pode ser implementado não apenas fisicamente, mas também através de software. Isto envolve agentes que activam aleatoriamente as placas de rede para realizar backups, desligando-as de seguida. Estes sistemas não permitem SSH ou outros acessos remotos, requerendo intervenção física para manutenção.
+
+### Automatização de Backups
+
+Existem sistemas robotizados de gestão de fitas magnéticas que utilizam braços mecânicos para gerir automaticamente quando e onde as fitas são escritas, optimizando o processo de backup para grandes volumes de dados.
+
+Este resumo integra todos os conceitos dos seus apontamentos numa estrutura coerente que facilita a compreensão das inter-relações entre os diferentes aspectos da segurança da informação. Cada elemento contribui para um sistema de segurança robusto que protege adequadamente os activos informacionais organizacionais.
 
 ---
 

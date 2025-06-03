@@ -195,6 +195,151 @@ O Wake on LAN é uma tecnologia que permite ligar remotamente um computador.
 
 ---
 
+# FCAPS: Accounting e Performance
+
+## 1. Accounting (Contabilização)
+
+**Objetivo:** Registar e atribuir o consumo de recursos (rede, CPU, aplicações, licenças) aos utilizadores ou grupos, suportando cobranças internas ou análise de custos.
+
+### 1.1. Funcionalidades principais
+
+* **Medição de recursos**
+
+  * Impressões de cada utilizador ou departamento.
+  * Utilização de licenças de software (licenciamento por utilizador, por instância).
+  * Tráfego de rede por VLAN, interface ou aplicação.
+
+* **Modelos de billing**
+
+  * Antigos: tarifação por volume ou tempo de uso.
+  * Modernos: licenciamento por subscrição, modelos SaaS, billing baseado em contêineres ou instâncias efémeras (cloud).
+
+* **Integração com Performance**
+
+  * Só avaliando o uso real de recursos é possível decidir se é necessário aumentar capacidade ou otimizar configuração para atingir SLAs de desempenho.
+
+### 1.2. Técnicas de monitorização
+
+| Nível          | Ferramentas / Protocolos                     | Descrição                                                           |
+| -------------- | -------------------------------------------- | ------------------------------------------------------------------- |
+| **Rede**       | SNMP/MIB, port mirroring, NetFlow/IPFIX      | Coleta estatísticas de interfaces, fluxos; espelhamento de pacotes. |
+| **Sistema**    | Ping, agentes (ex.: Telegraf, Zabbix agents) | Verificação de disponibilidade e métricas de CPU, memória.          |
+| **Aplicações** | Logs, proxies, agentes, NetFlow              | Registo de transações, tempos de resposta, fluxos de dados.         |
+
+- IPFix/NetFlow(Cisco) - Protoclo para contactar um equipamento de Rede e definir um Flow.
+---
+
+## 2. Performance
+
+### 2.1. Métricas essenciais
+
+* **Utilização (%)**
+  Percentagem de recurso em uso (CPU, memória, rede). Ex.: ideal \~40% para headroom.
+
+* **Workload**
+  Número de pedidos (requests) chega a um componente por segundo.
+
+* **Throughput**
+  Número de pedidos que o componente consegue efetivamente processar por segundo.
+
+  * Nota: se o workload aumenta demasiado, pode ocorrer *thrashing* (troca excessiva entre RAM e disco), reduzindo o throughput.
+
+* **Loss Rate**
+  Percentagem ou número de pedidos sem resposta (perdas, timeouts).
+
+* **Capacity**
+  Máximo throughput alcançável pelo sistema sob condições ideais.
+
+### 2.2. Picos de utilização
+
+* **Ocasionais**
+  Imprevisíveis (ex.: trânsito extra por evento súbito).
+
+* **Sazonais**
+  Previsíveis (ex.: tráfego elevado em horas de ponta diárias, campanhas de marketing).
+
+  * **Soluções:**
+
+    * Modelos híbridos (cloud + on‑premise) com auto‑scaling.
+    * Uso de CDN para cache de conteúdo estático e mitigação de DDoS, aproximando o cliente de servidores de borda que espelham apenas os conteúdos mais acedidos.
+
+### 2.3. Fatores de crescimento de carga
+
+* Aumento natural do número de utilizadores.
+* Complexidade crescente do software em novas versões (novas funcionalidades, mais dados em memória).
+
+### 2.4. Memória virtual: SWAP e *thrashing*
+
+* **SWAP files**
+  Espaço em disco reservado para estender a RAM. Quando a RAM enche, páginas ativas são movidas para SWAP.
+
+* **Thrashing**
+  Situação em que a troca constante (swap in/out) consome CPU e I/O, degradando severamente o desempenho.
+
+---
+
+## 3. Detecção de Problemas de Performance
+
+* **Feedback dos utilizadores**
+  Queixas directas de lentidão ou falhas.
+
+* **Thresholds**
+  Alertas configurados quando métricas (e.g., CPU > 90%) ultrapassam limites.
+
+  * Desafio: definir níveis sensíveis o suficiente para detectar problemas reais sem gerar *falsos-positivos*.
+
+* **Detecção de anomalias estatísticas**
+  Complemento aos thresholds, identificando valores fora de padrões esperados.
+
+  * Ex.: assumir distribuição normal (μ, σ) e sinalizar além de ±3σ como possível anomalia.
+
+> **Importante:** a deteção raramente é *boolean*; thresholds isolados podem falhar. Ideal combinar múltiplas fontes e métodos.
+
+---
+
+## 4. Resolução de Incidentes de Performance
+
+| Tipo de Causa              | Ação de Correção                                                  |
+| -------------------------- | ----------------------------------------------------------------- |
+| **Configuração**           | Rever parâmetros (buffers, timeouts, limites de conexão).         |
+| **Bugs de Software**       | Identificar e aplicar *patches* ou versões corrigidas.            |
+| **Limitações de Hardware** | Upgrade de CPU, memória, discos mais rápidos (SSD/NVMe).          |
+| **Crescimento de Carga**   | Escalar horizontal (mais instâncias) ou vertical (mais recursos). |
+
+---
+
+## 5. Visualização de Métricas
+
+* **Velocímetro (gauge)**
+  Exibe valor atual vs. intervalo esperado (e.g., CPU, latência).
+
+* **Nível (barra/retângulo)**
+  Percentagem de utilização (e.g., uso de disco, memória).
+
+* **Gráficos de séries temporais**
+  Exibem histórico e tendências ao longo do tempo (ideal para análise de picos e sazonalidade).
+
+---
+
+## 6. Principais Dúvidas e Esclarecimentos
+
+1. **Como a CDN mitiga picos e DDoS?**
+
+   * **Cache distribuído:** réplica de conteúdo estático em servidores de borda próximos do utilizador, reduzindo carga no servidor de origem e latência.
+   * **Proteção DDoS:** tráfego malicioso é absorvido e filtrado nas camadas de borda do provedor CDN.
+
+2. **Diferença entre Throughput e Capacity**
+
+   * **Throughput:** taxa real de processamento (pedidos/s), sujeita a variações por carga e configurações.
+   * **Capacity:** máximo teórico ou mensurável (pedidos/s) que o sistema pode suportar sob condições ideais.
+
+3. **SWAP files vs. Thrashing**
+
+   * **SWAP files:** recurso de extensão de memória em disco.
+   * **Thrashing:** estado de elevada atividade de swap, degradando o desempenho global.
+
+---
+
 # Análise das Métricas e Resiliência no Dimensionamento de Sistemas
 
 Analisei o documento de slides completo sobre dimensionamento de sistemas. O material aborda conceitos fundamentais para entender o desempenho de sistemas, modelar componentes e analisar métricas de performance e resiliência. Vou apresentar uma síntese organizada do conteúdo.
